@@ -14,18 +14,15 @@
 
 package request;
 
-import com.google.api.client.http.GenericUrl;
-import com.google.api.client.http.HttpContent;
-import com.google.api.client.http.HttpRequest;
-import com.google.api.client.http.HttpRequestFactory;
-import com.google.api.client.http.HttpRequestInitializer;
-import com.google.api.client.http.HttpTransport;
-import com.google.api.client.http.javanet.NetHttpTransport;
-import com.google.api.client.http.json.JsonHttpContent;
-import com.google.api.client.json.JsonFactory;
-import com.google.api.client.json.JsonObjectParser;
-import com.google.api.client.json.jackson2.JacksonFactory;
-import com.google.api.client.util.Key;
+import javax.servlet.http.HttpServletResponse;
+
+import com.google.appengine.api.urlfetch.*;
+import com.google.*;
+
+import java.net.*;
+import java.util.concurrent.Future;
+
+import javax.servlet.http.*;
 
 /**
  * 
@@ -35,35 +32,29 @@ import com.google.api.client.util.Key;
  */
 public class MakePost {
 
-  private HttpTransport HTTP_TRANSPORT = new NetHttpTransport();
-  private JsonFactory JSON_FACTORY = new JacksonFactory();
-  private ServletUrl url;
+	URLFetchService fetcher = URLFetchServiceFactory.getURLFetchService();
 
-  HttpRequestFactory requestFactory = HTTP_TRANSPORT
-      .createRequestFactory(new HttpRequestInitializer() {
-        @Override
-        public void initialize(HttpRequest request) {
-          request.setParser(new JsonObjectParser(JSON_FACTORY));
-        }
-      });
+  private URL url;
+  
+  
 
-  public static class ServletUrl extends GenericUrl {
-
-    public ServletUrl(String encodedUrl) {
-      super(encodedUrl);
-    }
-
-    @Key
-    public String fields;
+  public MakePost(String  url) {
+	  try {
+		this.url = new URL(url);
+	} catch (MalformedURLException e) {
+		e.printStackTrace();
+	}
   }
 
-  public MakePost(String inUrl) {
-    url = new ServletUrl(inUrl);
-  }
-
-  public String execute() throws Exception {
-    HttpContent hc = new JsonHttpContent(JSON_FACTORY, "test");
-   requestFactory.buildPostRequest(url, hc).executeAsync();
-   return "test";
+  public String execute(final HttpServletResponse  resp) throws Exception {
+	  	resp.getWriter().print("test1");
+	  	HTTPMethod hm = HTTPMethod.GET;
+		HTTPRequest request = new HTTPRequest(url, hm);
+		HTTPResponse hr = fetcher.fetch(request);
+		byte[] response = hr.getContent();
+		String test = new String(response);
+		resp.getWriter().print("test: " + test);
+		resp.getWriter().print("test2");
+		return "test";
   }
 }

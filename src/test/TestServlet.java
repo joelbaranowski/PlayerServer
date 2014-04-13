@@ -12,7 +12,13 @@ public class TestServlet extends HttpServlet {
 			throws IOException {
 		resp.setContentType("text/plain");
 		resp.getWriter().println("Hello, world");
+		System.out.println("sds");
 		TestPost tp = new TestPost();
-		System.out.println(tp.run());
+		tp.run(resp);
+	}
+	
+	public void doPost(HttpServletRequest req, HttpServletResponse resp) 
+			throws IOException{
+		resp.getWriter().write("returnsds");
 	}
 }
