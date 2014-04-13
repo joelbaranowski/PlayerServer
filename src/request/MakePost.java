@@ -28,7 +28,6 @@ import javax.servlet.http.*;
  * 
  * 
  * @author Joel Baranowski
- * @author Yaniv Inbar //developed Dailymotion example this is based on.
  */
 public class MakePost {
 
