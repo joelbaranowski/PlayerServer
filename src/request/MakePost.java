@@ -17,6 +17,7 @@ package request;
 import javax.servlet.http.HttpServletResponse;
 
 import com.google.appengine.api.urlfetch.*;
+import com.google.gson.Gson;
 import com.google.*;
 
 import java.net.*;
@@ -31,29 +32,24 @@ import javax.servlet.http.*;
  */
 public class MakePost {
 
-	URLFetchService fetcher = URLFetchServiceFactory.getURLFetchService();
+	private URLFetchService fetcher = URLFetchServiceFactory.getURLFetchService();
 
-  private URL url;
+	private Gson g = new Gson();
+	private URL url;
   
   
-
-  public MakePost(String  url) {
-	  try {
-		this.url = new URL(url);
-	} catch (MalformedURLException e) {
-		e.printStackTrace();
+	public MakePost(String  url) {
+		try {
+			this.url = new URL(url);
+		} 
+		catch (MalformedURLException e) {
+			e.printStackTrace();
+		}
 	}
-  }
 
-  public String execute(final HttpServletResponse  resp) throws Exception {
-	  	resp.getWriter().print("test1");
-	  	HTTPMethod hm = HTTPMethod.GET;
-		HTTPRequest request = new HTTPRequest(url, hm);
-		HTTPResponse hr = fetcher.fetch(request);
-		byte[] response = hr.getContent();
-		String test = new String(response);
-		resp.getWriter().print("test: " + test);
-		resp.getWriter().print("test2");
-		return "test";
-  }
+	public String execute(Object obj) throws Exception {
+		HTTPRequest request = new HTTPRequest(url, HTTPMethod.POST);
+		request.setPayload(g.toJson(obj).toString().getBytes());
+		return new String(fetcher.fetch(request).getContent());
+	}
 }
