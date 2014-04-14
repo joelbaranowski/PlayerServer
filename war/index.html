@@ -35,13 +35,15 @@
 	            success: function (data) {
 	            	console.log(JSON.stringify(data));
 	            	$("#target").html("");
+	            	if(data == null)
+	            		return;
 					for (var i = 0; i < data.length; i++) {
 						console.log("gamelist i: " + data[i]);
 						var newButton = $("<button id=" + data[i] + ">" + data[i] + "</button>");
 					    $("#target").append(newButton);
 					    $("#" + data[i]).bind("click", function() {
 	 						console.log("test");
-	  						send("joinGame", "{playerID:0, gameURL:" + $(this).html() + "}");
+	  						send("joinGame", "{'playerID':0, 'gameURL':'" + $(this).html() + "'}");
 						});
 					}
 	            },

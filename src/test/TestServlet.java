@@ -1,6 +1,7 @@
 package test;
 
 import java.io.IOException;
+import java.net.URLDecoder;
 import java.util.ArrayList;
 
 import javax.servlet.http.*;
@@ -26,7 +27,7 @@ public class TestServlet extends HttpServlet {
 		String data = req.getParameter("data");
 		if(method == null || data == null)
 			return;
-		this.execute(req.getParameter("method"), req.getParameter("data"), req, resp);
+		this.execute(req.getParameter("method"), URLDecoder.decode(req.getParameter("data"), "UTF-8"), req, resp);
 	}
 	
 	public void doPost(HttpServletRequest req, HttpServletResponse resp) 
@@ -51,6 +52,7 @@ public class TestServlet extends HttpServlet {
 				String gameURL = jg.getGameURL();
 				JoinGamePost jgp = new JoinGamePost();
 				String result = jgp.run(playerID, gameURL);
+				resp.getWriter().println(result);
 				break;
 			}
 		}
