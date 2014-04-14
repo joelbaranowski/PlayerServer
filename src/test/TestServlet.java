@@ -9,6 +9,7 @@ import com.google.appengine.api.memcache.MemcacheService;
 import com.google.appengine.api.memcache.MemcacheServiceFactory;
 import com.google.gson.Gson;
 
+import request.ExceptionStringify;
 import request.JoinGame;
 import request.MethodWrapper;
 import request.TakeTurn;
@@ -21,10 +22,11 @@ public class TestServlet extends HttpServlet {
 	
 	public void doGet(HttpServletRequest req, HttpServletResponse resp)
 			throws IOException {
-		resp.setContentType("text/plain");
-		resp.getWriter().println("Hello, world");
-		JoinGamePost jgp = new JoinGamePost();
-		
+		String method = req.getParameter("method");
+		String data = req.getParameter("data");
+		if(method == null || data == null)
+			return;
+		this.execute(req.getParameter("method"), req.getParameter("data"), req, resp);
 	}
 	
 	public void doPost(HttpServletRequest req, HttpServletResponse resp) 
@@ -32,7 +34,11 @@ public class TestServlet extends HttpServlet {
 		resp.setContentType("text/plain");
 		resp.getWriter().println("from server");
 		MethodWrapper mw = g.fromJson(req.getReader(), MethodWrapper.class);
-		switch(mw.getMethod()){
+		this.execute(mw.getMethod(), mw.getData(), req, resp);
+	}
+	
+	private void execute(String method, String data, HttpServletRequest req, HttpServletResponse resp) throws IOException{
+		switch(method){
 			case "getGameList":{
 				GetGameList ggl = new GetGameList();
 				String result = ggl.run();
@@ -40,7 +46,7 @@ public class TestServlet extends HttpServlet {
 				break;
 			}
 			case "joinGame":{
-				JoinGame jg = g.fromJson(mw.getData(), JoinGame.class);
+				JoinGame jg = g.fromJson(data, JoinGame.class);
 				int playerID = jg.getPlayerID();
 				String gameURL = jg.getGameURL();
 				JoinGamePost jgp = new JoinGamePost();
