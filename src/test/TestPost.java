@@ -27,6 +27,6 @@ public class TestPost {
 		catch (Exception exception) {
 			exception.printStackTrace();
 	    }
-		return "test failed";
+		return "no return";
 	}
 }
