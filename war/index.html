@@ -17,11 +17,27 @@
 
 	<script type="text/javascript">  
 	$(document).ready(function(){
+		$("#startGame").bind("click", function() {
+	 		console.log("test");
+	  		send("startGame", "");
+		});
+	
+		$("#endGame").bind("click", function() {
+	 		console.log("test");
+	  		send("endGame", "");
+		});
+		
 	 	$("#getGames").bind("click", function() {
 	 		console.log("test");
 	  		send("getGameList", "");
 		});
 		
+		var getLocation = function(href) {
+    		var l = document.createElement("a");
+    		l.href = href;
+    		return l;
+		};
+
 	    function send(methodVal, dataVal) {
 	        var methodWrapper = {
 	            method: methodVal,
@@ -39,9 +55,11 @@
 	            		return;
 					for (var i = 0; i < data.length; i++) {
 						console.log("gamelist i: " + data[i]);
-						var newButton = $("<button id=" + data[i] + ">" + data[i] + "</button>");
+						var location = getLocation(data[i]).hostname;
+						console.log("location: " + location);
+						var newButton = $("<button id=" + location + ">" + data[i] + "</button>");
 					    $("#target").append(newButton);
-					    $("#" + data[i]).bind("click", function() {
+					    $("#" + location).bind("click", function() {
 	 						console.log("test");
 	  						send("joinGame", "{'playerID':0, 'gameURL':'" + $(this).html() + "'}");
 						});
@@ -64,6 +82,8 @@
         		<td><a href="test">Test</a></td>
      		</tr>
    	 	</table>
+   	 	<button id="startGame">Start Game</button>
+   	 	<button id="endGame">End Game</button>
    	 	<button id="getGames">Get Games</button>
    	 	<div id="target"></div>
   	</body>

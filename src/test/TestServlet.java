@@ -41,8 +41,26 @@ public class TestServlet extends HttpServlet {
 	private void execute(String method, String data, HttpServletRequest req, HttpServletResponse resp) throws IOException{
 		switch(method){
 			case "getGameList":{
-				GetGameList ggl = new GetGameList();
-				String result = ggl.run();
+				MethodWrapper mw = new MethodWrapper("getGameList", "");
+				MethodWrapperPost ggl = new MethodWrapperPost();
+				String result = ggl.run(mw);
+				resp.getWriter().println(result);
+				break;
+			}
+			case "getPlayerList":{
+				
+			}
+			case "startGame":{
+				MethodWrapper mw = new MethodWrapper("startGame", "");
+				MethodWrapperPost ggl = new MethodWrapperPost();
+				String result = ggl.run(mw);
+				resp.getWriter().println(result);
+				break;
+			}
+			case "endGame":{
+				MethodWrapper mw = new MethodWrapper("endGame", "");
+				MethodWrapperPost ggl = new MethodWrapperPost();
+				String result = ggl.run(mw);
 				resp.getWriter().println(result);
 				break;
 			}
