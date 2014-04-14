@@ -23,9 +23,8 @@ public class TestServlet extends HttpServlet {
 			throws IOException {
 		resp.setContentType("text/plain");
 		resp.getWriter().println("Hello, world");
-		TestPost tp = new TestPost();
-		String result = tp.run();
-		resp.getWriter().println("result: " + result);
+		JoinGamePost jgp = new JoinGamePost();
+		
 	}
 	
 	public void doPost(HttpServletRequest req, HttpServletResponse resp) 
@@ -34,7 +33,20 @@ public class TestServlet extends HttpServlet {
 		resp.getWriter().println("from server");
 		MethodWrapper mw = g.fromJson(req.getReader(), MethodWrapper.class);
 		switch(mw.getMethod()){
-
+			case "getGameList":{
+				GetGameList ggl = new GetGameList();
+				String result = ggl.run();
+				resp.getWriter().println(result);
+				break;
+			}
+			case "joinGame":{
+				JoinGame jg = g.fromJson(mw.getData(), JoinGame.class);
+				int playerID = jg.getPlayerID();
+				String gameURL = jg.getGameURL();
+				JoinGamePost jgp = new JoinGamePost();
+				String result = jgp.run(playerID, gameURL);
+				break;
+			}
 		}
 	}
 }

@@ -6,22 +6,53 @@
 <!-- with a "Standards Mode" doctype is supported, -->
 <!-- but may lead to some differences in layout.   -->
 
-<html>
-  <head>
-    <meta http-equiv="content-type" content="text/html; charset=UTF-8">
-    <title>Hello App Engine</title>
-  </head>
 
-  <body>
-    <h1>Hello App Engine!</h1>
+<html>
+
+ 	<head>
+    	<meta http-equiv="content-type" content="text/html; charset=UTF-8">
+    	<script src="//ajax.googleapis.com/ajax/libs/jquery/2.1.0/jquery.min.js"></script>
+    	<title>Hello App Engine</title>
+  	</head>
+
+	<script type="text/javascript">  
+	$(document).ready(function(){
+	 	$("#getGames").bind("click", function() {
+	 		console.log("test");
+	  		send("getGameList", "");
+		});
+		
+	    function send(methodVal, dataVal) {
+	        var methodWrapper = {
+	            method: methodVal,
+	            data: dataVal
+	        }
 	
-    <table>
-      <tr>
-        <td colspan="2" style="font-weight:bold;">Available Servlets:</td>        
-      </tr>
-      <tr>
-        <td><a href="test">Test</a></td>
-      </tr>
-    </table>
-  </body>
+	        $.ajax({
+	            url: 'http://1-dot-utopian-hearth-531.appspot.com/test',
+	            type: 'POST',
+	            dataType: 'json',
+	            success: function (data) {
+	                $("#target").html(data);
+	            },
+	            data: methodWrapper
+	        });
+	      }
+	});
+	</script>
+
+  	<body>
+    	<h1>Hello App Engine!</h1>
+	
+    	<table>
+      		<tr>
+       	 		<td colspan="2" style="font-weight:bold;">Available Servlets:</td>        
+     	 	</tr>
+     	 	<tr>
+        		<td><a href="test">Test</a></td>
+     		</tr>
+   	 	</table>
+   	 	<button id="getGames">Get Games</button>
+   	 	<div id="target"></div>
+  	</body>
 </html>
