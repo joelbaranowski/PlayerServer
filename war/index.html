@@ -56,10 +56,11 @@
 					for (var i = 0; i < data.length; i++) {
 						console.log("gamelist i: " + data[i]);
 						var location = getLocation(data[i]).hostname;
+						location = location.replace(/\./g,'-')
 						console.log("location: " + location);
-						var newButton = $("<button id=" + location + ">" + data[i] + "</button>");
+						var newButton = $("<button id=X" + location + ">" + data[i] + "</button>");
 					    $("#target").append(newButton);
-					    $("#" + location).bind("click", function() {
+					    $("#X" + location).bind("click", function() {
 	 						console.log("test");
 	  						send("joinGame", "{'playerID':0, 'gameURL':'" + $(this).html() + "'}");
 						});
