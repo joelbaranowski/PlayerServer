@@ -17,6 +17,11 @@
 
 	<script type="text/javascript">  
 	$(document).ready(function(){
+		$("#getPlayerList").bind("click", function() {
+	 		console.log("test");
+	  		send("getPlayerList", "");
+		});
+	
 		$("#startGame").bind("click", function() {
 	 		console.log("test");
 	  		send("startGame", "");
@@ -83,6 +88,7 @@
         		<td><a href="test">Test</a></td>
      		</tr>
    	 	</table>
+   	 	<button id="getPlayerList">Get Players</button>
    	 	<button id="startGame">Start Game</button>
    	 	<button id="endGame">End Game</button>
    	 	<button id="getGames">Get Games</button>

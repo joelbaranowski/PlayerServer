@@ -48,7 +48,11 @@ public class TestServlet extends HttpServlet {
 				break;
 			}
 			case "getPlayerList":{
-				
+				MethodWrapper mw = new MethodWrapper("getPlayerList", "");
+				MethodWrapperPost ggl = new MethodWrapperPost();
+				String result = ggl.run(mw);
+				resp.getWriter().println(result);
+				break;
 			}
 			case "startGame":{
 				MethodWrapper mw = new MethodWrapper("startGame", "");
