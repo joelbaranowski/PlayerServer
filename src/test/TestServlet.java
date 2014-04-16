@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.net.URLDecoder;
 import java.util.ArrayList;
 
+import javax.servlet.ServletException;
 import javax.servlet.http.*;
 
 import com.google.appengine.api.memcache.MemcacheService;
@@ -23,6 +24,7 @@ public class TestServlet extends HttpServlet {
 	
 	public void doGet(HttpServletRequest req, HttpServletResponse resp)
 			throws IOException {
+		resp.addHeader("Access-Control-Allow-Origin", "*");
 		String method = req.getParameter("method");
 		String data = req.getParameter("data");
 		if(method == null || data == null)
@@ -30,10 +32,8 @@ public class TestServlet extends HttpServlet {
 		this.execute(req.getParameter("method"), URLDecoder.decode(req.getParameter("data"), "UTF-8"), req, resp);
 	}
 	
-	public void doPost(HttpServletRequest req, HttpServletResponse resp) 
-			throws IOException{
-		resp.setContentType("text/plain");
-		resp.getWriter().println("from server");
+	public void doPost(HttpServletRequest req, HttpServletResponse resp)
+			throws IOException {
 		MethodWrapper mw = g.fromJson(req.getReader(), MethodWrapper.class);
 		this.execute(mw.getMethod(), mw.getData(), req, resp);
 	}

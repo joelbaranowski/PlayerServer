@@ -50,8 +50,8 @@
 	        }
 	
 	        $.ajax({
-	            url: 'http://1-dot-utopian-hearth-531.appspot.com/test',
-	            type: 'GET',
+	            url: 'http://1-dot-utopian-hearth-532.appspot.com/test2',
+	            type: 'POST',
 	            dataType: 'json',
 	            success: function (data) {
 	            	console.log(JSON.stringify(data));
@@ -71,7 +71,7 @@
 						});
 					}
 	            },
-	            data: methodWrapper
+	            data: "{'method':'" + methodVal + "','data':'" + dataVal + "'}"
 	        });
 	      }
 	});
