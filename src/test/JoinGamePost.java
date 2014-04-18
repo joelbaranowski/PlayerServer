@@ -16,7 +16,7 @@ public class JoinGamePost {
 
 	Gson g = new Gson();
 	
-	public String run(int playerID, String gameUrl){
+	public String run(Long playerID, String gameUrl){
 		MakePost mp = new MakePost("http://1-dot-utopian-hearth-532.appspot.com/test2");
 		JoinGame jg = new JoinGame(playerID, gameUrl);
 		String jgs = g.toJson(jg);

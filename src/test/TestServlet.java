@@ -70,7 +70,7 @@ public class TestServlet extends HttpServlet {
 			}
 			case "joinGame":{
 				JoinGame jg = g.fromJson(data, JoinGame.class);
-				int playerID = jg.getPlayerID();
+				Long playerID = jg.getPlayerID();
 				String gameURL = jg.getGameURL();
 				JoinGamePost jgp = new JoinGamePost();
 				String result = jgp.run(playerID, gameURL);
